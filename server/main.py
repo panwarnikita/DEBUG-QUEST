@@ -9,6 +9,12 @@ ca = certifi.where()
 
 app = FastAPI()
 
+origins = [
+    "http://localhost:3000",
+    "https://debug-quest-4xy43ugej-nikita24846s-projects.vercel.app",
+    "https://debug-quest-roan.vercel.app",
+]
+
 
 MONGO_URI = "mongodb+srv://Nikita:Panwar123@cluster0.jqnltm3.mongodb.net/?appName=Cluster0"
 client = AsyncIOMotorClient(MONGO_URI)
@@ -18,7 +24,8 @@ users_collection = db.users
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    # allow_origins=["http://localhost:3000"],
+    allow_origins=origins,
     allow_methods=["*"],
     allow_headers=["*"],
 )
