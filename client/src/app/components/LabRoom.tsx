@@ -75,7 +75,7 @@ export default function LabRoom({ level, categoryName, onBack, onNext }: any) {
 
   const processZiaRequest = async (userQuestion: string) => {
     try {
-      const response = await fetch("https://debug-quest-ll12.onrender.com/zia-mentor", {
+      const response = await fetch("https://debug-quest-ii12.onrender.com/zia-mentor", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
