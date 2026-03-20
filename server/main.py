@@ -19,7 +19,7 @@ app = FastAPI()
 origins = [
     "http://localhost:3000",
     "https://debug-quest-roan.vercel.app", # Isko fix man lo
-    "https://debug-quest-nikita24846s-projects.vercel.app", # Ye fix wala
+    "https://debug-quest-nhaffbime-nikita24846s-projects.vercel.app", # Ye fix wala
 ]
 
 MONGO_URI = "mongodb+srv://Nikita:Panwar123@cluster0.jqnltm3.mongodb.net/?appName=Cluster0"
