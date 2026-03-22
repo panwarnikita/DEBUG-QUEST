@@ -17,3 +17,24 @@ body {
     scrollbar-width: none; 
   }
 }
+
+html.dark {
+  color-scheme: dark;
+}
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #050505;
+  
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px; 
+  
+  color: #ffffff;
+  min-height: 100vh;
+}

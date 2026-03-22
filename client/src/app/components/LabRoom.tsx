@@ -15,7 +15,7 @@ export default function LabRoom({ level, categoryName, onBack, onNext }: any) {
   const [hintCount, setHintCount] = useState(0);
   const [isZiaThinking, setIsZiaThinking] = useState(false);
   const [isZiaSpeaking, setIsZiaSpeaking] = useState(false);
-  
+
   const [logs, setLogs] = useState<string[]>(["System: Initialization complete.", "Status: Kernels loaded."]);
   const [isSuccess, setIsSuccess] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -43,7 +43,7 @@ export default function LabRoom({ level, categoryName, onBack, onNext }: any) {
     }
 
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    
+
     if (!SpeechRecognition) {
       speak("Voice recognition is not supported in this browser.");
       return;
@@ -61,7 +61,7 @@ export default function LabRoom({ level, categoryName, onBack, onNext }: any) {
     recognition.onresult = (event: any) => {
       const transcript = event.results[0][0].transcript;
       setLogs(prev => [...prev, "System: Analyzing voice input..."]);
-      processZiaRequest(transcript); 
+      processZiaRequest(transcript);
     };
 
     recognition.onerror = () => {
@@ -86,7 +86,7 @@ export default function LabRoom({ level, categoryName, onBack, onNext }: any) {
         })
       });
       const data = await response.json();
-      speak(data.reply); 
+      speak(data.reply);
       setHintCount(prev => prev + 1);
     } catch (err) {
       setLogs(prev => [...prev, "❌ Error: Neural link failure."]);
@@ -100,7 +100,12 @@ export default function LabRoom({ level, categoryName, onBack, onNext }: any) {
     setLogs(["System: Level calibrated.", `Status: Stage 0${level.id} analytical mode active.`]);
     const introMsg = `Hello Nikita! ${currentLevel.bugReport}`;
     const timer = setTimeout(() => speak(introMsg), 1000);
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      if (window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+    }
   }, [level.id]);
 
   const handleRun = () => {
@@ -140,13 +145,13 @@ export default function LabRoom({ level, categoryName, onBack, onNext }: any) {
               ))}
             </div>
           </div>
-          
+
           <div className="flex-grow flex flex-col items-center justify-center p-8 bg-gradient-to-b from-transparent to-cyan-950/5">
             <div className="relative w-44 h-44 mb-6 rounded-full border-2 border-white/5 overflow-hidden bg-black shadow-2xl">
               <video ref={videoRef} src="/AI.mp4" className="w-full h-full object-cover" loop muted playsInline />
             </div>
-            
-            <button 
+
+            <button
               onClick={askZia}
               disabled={isZiaThinking || isSuccess}
               className={`w-full py-3 rounded-xl border flex items-center justify-center gap-2 transition-all duration-500 ${isZiaThinking ? 'border-cyan-500/50 bg-cyan-500/10' : 'border-white/10 hover:border-cyan-500 bg-white/5'}`}
@@ -156,7 +161,7 @@ export default function LabRoom({ level, categoryName, onBack, onNext }: any) {
                 {isZiaThinking ? 'Listening...' : `Ask Zia (${hintCount}/7)`}
               </span>
             </button>
-            <div className="w-full h-1 bg-white/5 mt-3 rounded-full overflow-hidden"><div className="h-full bg-cyan-500 transition-all duration-700" style={{ width: `${(hintCount/7)*100}%` }} /></div>
+            <div className="w-full h-1 bg-white/5 mt-3 rounded-full overflow-hidden"><div className="h-full bg-cyan-500 transition-all duration-700" style={{ width: `${(hintCount / 7) * 100}%` }} /></div>
           </div>
         </aside>
 
@@ -197,3 +202,4 @@ export default function LabRoom({ level, categoryName, onBack, onNext }: any) {
     </div>
   );
 }
+
