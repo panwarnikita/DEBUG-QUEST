@@ -4,7 +4,7 @@ import Editor from "@monaco-editor/react";
 import { Play, ChevronLeft, Layout, Info, Terminal as TerminalIcon, FileCode, FileJson, ArrowRight, MessageSquareCode } from "lucide-react";
 import { allLevels } from "../data/levels";
 
-export default function LabRoom({ level, categoryName, onBack, onNext }: any) {
+export default function LabRoom({ level, categoryName, user, onBack, onNext }: any) {
   const categoryLevels = allLevels[level.category.toLowerCase()] || allLevels['react'];
   const currentLevel = categoryLevels[level.id] || categoryLevels[1];
 
@@ -38,7 +38,8 @@ export default function LabRoom({ level, categoryName, onBack, onNext }: any) {
 
   const askZia = () => {
     if (hintCount >= 10) {
-      speak("Nikita, neural credits exhausted. Rely on your logic now.");
+      // speak("Nikita, neural credits exhausted. Rely on your logic now.");
+      speak(`${user?.name || "Coder"}, neural credits exhausted. Rely on your logic now.`);
       return;
     }
 
@@ -98,7 +99,8 @@ export default function LabRoom({ level, categoryName, onBack, onNext }: any) {
   useEffect(() => {
     setIsSuccess(false);
     setLogs(["System: Level calibrated.", `Status: Stage 0${level.id} analytical mode active.`]);
-    const introMsg = `Hello Nikita! ${currentLevel.bugReport}`;
+    // const introMsg = `Hello Nikita! ${currentLevel.bugReport}`;
+    const introMsg = `Hello ${user?.name || "Coder"}! ${currentLevel.bugReport}`;
     const timer = setTimeout(() => speak(introMsg), 1000);
     return () => {
       clearTimeout(timer);
@@ -113,7 +115,8 @@ export default function LabRoom({ level, categoryName, onBack, onNext }: any) {
     if (currentLevel.solutionCheck(userCode)) {
       setIsSuccess(true);
       setLogs(prev => [...prev, "✅ SUCCESS: Logic integrity verified.", "Status: System stabilized."]);
-      speak("Excellent, Nikita. You successfully debugged this code!");
+      // speak("Excellent, Nikita. You successfully debugged this code!");
+      speak(`Excellent, ${user?.name || "Coder"}. You successfully debugged this code!`);
     } else {
       setLogs(prev => [...prev, "❌ ERROR: Critical logic failure.", "Status: Regression detected."]);
       speak("The system rejected that change. Try another approach.");

@@ -66,6 +66,7 @@ export default function Dashboard() {
       <LabRoom
         level={selectedLevel}
         categoryName={categoryData?.name}
+        user={user}
         onBack={(success: boolean) => {
           if (success && selectedLevel.id === userProgress[selectedLevel.category]) {
             setUserProgress(prev => ({ ...prev, [selectedLevel.category]: prev[selectedLevel.category] + 1 }));
